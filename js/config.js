@@ -6,7 +6,7 @@ const CONFIG = {
     // Local development: 'http://localhost:5000/api'
     // Production: 'https://YOUR-BACKEND.azurewebsites.net/api'
     // For Azure Static Web Apps with API proxy: '/api'
-    API_BASE_URL: '/api',
+    API_BASE_URL: 'https://ply-story-1.onrender.com/api',
 
     // Application settings
     APP_NAME: 'PPU Complaint Management System',
