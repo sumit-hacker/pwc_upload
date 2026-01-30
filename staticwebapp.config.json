@@ -1,0 +1,43 @@
+{
+    "routes": [
+        {
+            "route": "/api/*",
+            "allowedRoles": [
+                "anonymous"
+            ]
+        }
+    ],
+    "navigationFallback": {
+        "rewrite": "/404.html",
+        "exclude": [
+            "/css/*",
+            "/js/*",
+            "/assets/*",
+            "*.html",
+            "*.css",
+            "*.js",
+            "*.png",
+            "*.jpg",
+            "*.ico"
+        ]
+    },
+    "responseOverrides": {
+        "404": {
+            "rewrite": "/404.html"
+        }
+    },
+    "globalHeaders": {
+        "Cache-Control": "public, max-age=3600",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN"
+    },
+    "mimeTypes": {
+        ".json": "application/json",
+        ".css": "text/css",
+        ".js": "application/javascript",
+        ".html": "text/html",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".svg": "image/svg+xml"
+    }
+}

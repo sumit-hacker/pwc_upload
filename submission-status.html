@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Status - PPU CMS</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Grenze:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #42a5f5;
+            --primary-light: #e3f2fd;
+            --primary-dark: #1976d2;
+            --success-color: #66bb6a;
+            --warning-color: #ffa726;
+            --error-color: #ef5350;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 50%, #bbdefb 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 40px auto;
+        }
+
+        /* Status Card */
+        .status-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            text-align: center;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Lottie Animation Container */
+        .lottie-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+        }
+
+        lottie-player {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Status Title */
+        .status-title {
+            font-family: 'Grenze', serif;
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .status-title.success {
+            color: var(--success-color);
+        }
+
+        .status-title.pending {
+            color: var(--warning-color);
+        }
+
+        .status-title.error {
+            color: var(--error-color);
+        }
+
+        .status-message {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Credentials Box */
+        .credentials-box {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .credential-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .credential-label i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .credential-value {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .credential-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+
+        .btn-copy {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .btn-copy.copied {
+            background: var(--success-color);
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .warning-box i {
+            color: var(--warning-color);
+            font-size: 1.3rem;
+            margin-top: 2px;
+        }
+
+        .warning-box p {
+            color: #e65100;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 165, 245, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color) 0%, #43a047 100%);
+            color: var(--white);
+        }
+
+        /* Info Section */
+        .info-section {
+            background: var(--primary-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .info-section h4 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 8px 0;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-list li i {
+            color: var(--success-color);
+        }
+
+        /* Loading State */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        /* Track Complaint Form */
+        .track-form {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin-top: 20px;
+        }
+
+        .track-form h2 {
+            font-family: 'Grenze', serif;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.2);
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .action-buttons,
+            .btn-copy {
+                display: none;
+            }
+
+            .status-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+
+            .status-card,
+            .track-form {
+                padding: 25px;
+            }
+
+            .credential-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_p8bfn5to.json" background="transparent"
+            speed="1" style="width: 150px; height: 150px;" loop autoplay>
+        </lottie-player>
+        <p style="margin-top: 20px; color: #666;">Processing your request...</p>
+    </div>
+
+    <div class="container">
+        <!-- Success Status Card (shown after submission) -->
+        <div class="status-card" id="successCard" style="display: none;">
+            <div class="lottie-container">
+                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+                    background="transparent" speed="1" style="width: 200px; height: 200px;" autoplay>
+                </lottie-player>
+            </div>
+
+            <h1 class="status-title success">Complaint Submitted Successfully!</h1>
+            <p class="status-message">
+                Your complaint has been registered and is now being processed by our team.
+            </p>
+
+            <div class="credentials-box">
+                <div class="credential-item">
+                    <div class="credential-label">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>Complaint ID</span>
+                    </div>
+                    <div class="credential-value">
+                        <span class="credential-text" id="displayComplaintId">260130-12345</span>
+                        <button class="btn-copy" onclick="copyToClipboard('displayComplaintId')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="credential-item">
+                    <div class="credential-label">
+                        <i class="fas fa-key"></i>
+                        <span>Security PIN</span>
+                    </div>
+                    <div class="credential-value">
+                        <span class="credential-text" id="displayPin">123456</span>
+                        <button class="btn-copy" onclick="copyToClipboard('displayPin')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>
+                    <strong>Important:</strong> Save your Complaint ID and PIN securely.
+                    You will need these to track your complaint status. The PIN cannot be recovered if lost!
+                </p>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="printReceipt()">
+                    <i class="fas fa-print"></i> Print Receipt
+                </button>
+                <a href="complaint-form.html" class="btn btn-secondary">
+                    <i class="fas fa-plus"></i> Submit Another
+                </a>
+                <a href="PPU_CMS.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+
+            <div class="info-section">
+                <h4><i class="fas fa-info-circle"></i> What Happens Next?</h4>
+                <ul class="info-list">
+                    <li><i class="fas fa-check"></i> Your complaint is assigned to the relevant department</li>
+                    <li><i class="fas fa-check"></i> You will receive email updates on status changes</li>
+                    <li><i class="fas fa-check"></i> Use your Complaint ID to track progress</li>
+                    <li><i class="fas fa-check"></i> Expected response time: 3-7 working days</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Error Status Card -->
+        <div class="status-card" id="errorCard" style="display: none;">
+            <div class="lottie-container">
+                <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_tl52xzvn.json"
+                    background="transparent" speed="1" style="width: 200px; height: 200px;" autoplay>
+                </lottie-player>
+            </div>
+
+            <h1 class="status-title error">Submission Failed</h1>
+            <p class="status-message" id="errorMessage">
+                We couldn't process your complaint. Please try again later.
+            </p>
+
+            <div class="action-buttons">
+                <a href="complaint-form.html" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Try Again
+                </a>
+                <a href="PPU_CMS.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        </div>
+
+        <!-- Track Complaint Form -->
+        <div class="track-form" id="trackForm">
+            <h2><i class="fas fa-search"></i> Track Your Complaint</h2>
+
+            <div class="form-group">
+                <label for="trackId">
+                    <i class="fas fa-ticket-alt"></i> Complaint ID
+                </label>
+                <input type="text" id="trackId" placeholder="e.g., 260130-12345" required>
+            </div>
+
+            <div class="form-group">
+                <label for="trackPin">
+                    <i class="fas fa-key"></i> Security PIN
+                </label>
+                <input type="password" id="trackPin" placeholder="6-digit PIN" maxlength="6" required>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="trackComplaint()">
+                    <i class="fas fa-search"></i> Track Status
+                </button>
+            </div>
+        </div>
+
+        <!-- Track Result Card -->
+        <div class="status-card" id="trackResultCard" style="display: none;">
+            <div class="lottie-container" id="trackLottie">
+                <!-- Lottie will be inserted here -->
+            </div>
+
+            <h1 class="status-title" id="trackStatusTitle">Complaint Status</h1>
+            <p class="status-message" id="trackStatusMessage"></p>
+
+            <div id="trackDetails" style="text-align: left; margin-top: 20px;">
+                <!-- Details will be inserted here -->
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="showTrackForm()">
+                    <i class="fas fa-arrow-left"></i> Track Another
+                </button>
+                <a href="PPU_CMS.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL - Use relative path for Azure Static Web Apps API proxy
+        // For local development, change to: 'http://localhost:5000/api'
+        const API_BASE_URL = '/api';
+
+        // Check for URL parameters (from form submission redirect)
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+            const complaintId = urlParams.get('id');
+            const pin = urlParams.get('pin');
+            const error = urlParams.get('error');
+
+            if (status === 'success' && complaintId && pin) {
+                showSuccessCard(complaintId, pin);
+            } else if (status === 'error') {
+                showErrorCard(error || 'An error occurred');
+            }
+        });
+
+        // Show success card with credentials
+        function showSuccessCard(complaintId, pin) {
+            document.getElementById('trackForm').style.display = 'none';
+            document.getElementById('successCard').style.display = 'block';
+            document.getElementById('displayComplaintId').textContent = complaintId;
+            document.getElementById('displayPin').textContent = pin;
+        }
+
+        // Show error card
+        function showErrorCard(message) {
+            document.getElementById('trackForm').style.display = 'none';
+            document.getElementById('errorCard').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        // Copy to clipboard
+        async function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            const button = event.currentTarget;
+
+            try {
+                await navigator.clipboard.writeText(text);
+                button.classList.add('copied');
+                button.innerHTML = '<i class="fas fa-check"></i>';
+
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 2000);
+            } catch (err) {
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Copied!');
+            }
+        }
+
+        // Print receipt
+        function printReceipt() {
+            window.print();
+        }
+
+        // Track complaint
+        async function trackComplaint() {
+            const complaintId = document.getElementById('trackId').value.trim();
+            const pin = document.getElementById('trackPin').value.trim();
+
+            if (!complaintId || !pin) {
+                alert('Please enter both Complaint ID and PIN');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/complaints/verify`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ complaintId, pin })
+                });
+
+                const data = await response.json();
+                showLoading(false);
+
+                if (data.success) {
+                    showTrackResult(data.complaint);
+                } else {
+                    alert(data.message || 'Invalid credentials');
+                }
+            } catch (error) {
+                showLoading(false);
+                console.error('Error:', error);
+                alert('Failed to track complaint. Please try again.');
+            }
+        }
+
+        // Show track result
+        function showTrackResult(complaint) {
+            document.getElementById('trackForm').style.display = 'none';
+            document.getElementById('trackResultCard').style.display = 'block';
+
+            const statusColors = {
+                'pending': { color: 'warning', icon: 'clock', text: 'Pending Review' },
+                'under_review': { color: 'primary', icon: 'search', text: 'Under Review' },
+                'in_progress': { color: 'primary', icon: 'cogs', text: 'In Progress' },
+                'resolved': { color: 'success', icon: 'check-circle', text: 'Resolved' },
+                'rejected': { color: 'error', icon: 'times-circle', text: 'Rejected' },
+                'closed': { color: 'text-light', icon: 'archive', text: 'Closed' }
+            };
+
+            const statusInfo = statusColors[complaint.status] || statusColors.pending;
+
+            // Update title
+            const titleEl = document.getElementById('trackStatusTitle');
+            titleEl.textContent = statusInfo.text;
+            titleEl.className = `status-title ${statusInfo.color === 'warning' ? 'pending' : statusInfo.color}`;
+
+            // Lottie animation based on status
+            const lottieContainer = document.getElementById('trackLottie');
+            let lottieUrl;
+
+            if (complaint.status === 'resolved') {
+                lottieUrl = 'https://assets5.lottiefiles.com/packages/lf20_jbrw3hcz.json'; // Success
+            } else if (complaint.status === 'rejected') {
+                lottieUrl = 'https://assets4.lottiefiles.com/packages/lf20_tl52xzvn.json'; // Error
+            } else {
+                lottieUrl = 'https://assets9.lottiefiles.com/packages/lf20_UJNc2t.json'; // Processing
+            }
+
+            lottieContainer.innerHTML = `
+                <lottie-player
+                    src="${lottieUrl}"
+                    background="transparent"
+                    speed="1"
+                    style="width: 200px; height: 200px;"
+                    loop
+                    autoplay>
+                </lottie-player>
+            `;
+
+            // Status message
+            document.getElementById('trackStatusMessage').textContent =
+                `Complaint ID: ${complaint.complaintId}`;
+
+            // Details
+            const detailsHtml = `
+                <div class="credentials-box">
+                    <div class="credential-item">
+                        <div class="credential-label">
+                            <i class="fas fa-heading"></i>
+                            <span>Title</span>
+                        </div>
+                        <span style="font-weight: 600;">${complaint.title}</span>
+                    </div>
+                    <div class="credential-item">
+                        <div class="credential-label">
+                            <i class="fas fa-tags"></i>
+                            <span>Category</span>
+                        </div>
+                        <span>${complaint.category}</span>
+                    </div>
+                    <div class="credential-item">
+                        <div class="credential-label">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>Urgency</span>
+                        </div>
+                        <span>${complaint.urgency}</span>
+                    </div>
+                    <div class="credential-item">
+                        <div class="credential-label">
+                            <i class="fas fa-calendar"></i>
+                            <span>Submitted</span>
+                        </div>
+                        <span>${new Date(complaint.submittedAt).toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })}</span>
+                    </div>
+                </div>
+                
+                ${complaint.timeline && complaint.timeline.length > 0 ? `
+                <div class="info-section">
+                    <h4><i class="fas fa-history"></i> Timeline</h4>
+                    <ul class="info-list">
+                        ${complaint.timeline.map(item => `
+                            <li>
+                                <i class="fas fa-check"></i>
+                                <span>
+                                    <strong>${item.status}</strong> - ${item.message}
+                                    <br><small style="color: #999;">${new Date(item.timestamp).toLocaleString()}</small>
+                                </span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+            `;
+
+            document.getElementById('trackDetails').innerHTML = detailsHtml;
+        }
+
+        // Show track form
+        function showTrackForm() {
+            document.getElementById('trackResultCard').style.display = 'none';
+            document.getElementById('successCard').style.display = 'none';
+            document.getElementById('errorCard').style.display = 'none';
+            document.getElementById('trackForm').style.display = 'block';
+            document.getElementById('trackId').value = '';
+            document.getElementById('trackPin').value = '';
+        }
+
+        // Show/hide loading
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+        }
+    </script>
+</body>
+
+</html>

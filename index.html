@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>University - Complaint Management System</title>
+  <meta name="description"
+    content="Official Complaint Management System for University. Submit and track complaints securely and efficiently." />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Lucide Icons (Apple Human Interface Style) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Font Awesome (for footer social icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <!-- Footer Styles -->
+  <link rel="stylesheet" href="css/footer_styles.css" />
+
+  <!-- Custom Icon Styles -->
+  <style>
+    .lucide-icon {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .lucide-icon-lg {
+      width: 1.5em;
+      height: 1.5em;
+    }
+
+    .lucide-icon-xl {
+      width: 2em;
+      height: 2em;
+    }
+
+    .logo-img {
+      filter: brightness(0) invert(1);
+      mix-blend-mode: normal;
+    }
+
+    .logo-img-dark {
+      filter: none;
+      mix-blend-mode: multiply;
+    }
+  </style>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/PPU_styles.css" />
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            display: ["Poppins", "sans-serif"],
+          },
+          colors: {
+            ppuGreen: '#00c16a',
+            primary: {
+              50: "#f0f9ff",
+              100: "#e0f2fe",
+              200: "#bae6fd",
+              300: "#7dd3fc",
+              400: "#38bdf8",
+              500: "#0ea5e9",
+              600: "#0284c7",
+              700: "#0369a1",
+              800: "#075985",
+              900: "#0c4a6e",
+            },
+            accent: {
+              50: "#fdf4ff",
+              100: "#fae8ff",
+              200: "#f5d0fe",
+              300: "#f0abfc",
+              400: "#e879f9",
+              500: "#d946ef",
+              600: "#c026d3",
+              700: "#a21caf",
+              800: "#86198f",
+              900: "#701a75",
+            },
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="font-sans bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex items-center space-x-4">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg overflow-hidden bg-white p-1">
+            <img src="assets/ppu_logo.png" alt="University Logo" class="w-full h-full object-contain logo-img-dark" />
+          </div>
+          <div>
+            <h1 class="text-xl font-display font-bold text-gray-900">
+              University
+            </h1>
+            <p class="text-xs text-gray-600">Complaint Management System</p>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#home" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Home</a>
+          <a href="complaint-form.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Submit
+            Complaint</a>
+          <a href="#track" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Track Status</a>
+          <a href="#faq" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">FAQ</a>
+          <button onclick="openLoginModal()"
+            class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center gap-2">
+            <i data-lucide="log-in" class="lucide-icon"></i>Login
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-gray-700" onclick="toggleMobileMenu()">
+          <i data-lucide="menu" class="lucide-icon lucide-icon-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <div class="px-4 py-4 space-y-3">
+        <a href="#home" class="block text-gray-700 hover:text-blue-600 font-medium py-2">Home</a>
+        <a href="complaint-form.html" class="block text-gray-700 hover:text-blue-600 font-medium py-2">Submit
+          Complaint</a>
+        <a href="#track" class="block text-gray-700 hover:text-blue-600 font-medium py-2">Track Status</a>
+        <a href="#faq" class="block text-gray-700 hover:text-blue-600 font-medium py-2">FAQ</a>
+        <button onclick="openLoginModal()"
+          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-lg font-medium flex items-center justify-center gap-2">
+          <i data-lucide="log-in" class="lucide-icon"></i>Login
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative overflow-hidden py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- Left Content -->
+        <div class="space-y-8 animate-fade-in">
+          <div class="inline-block">
+            <span
+              class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold inline-flex items-center gap-2">
+              <i data-lucide="shield-check" class="lucide-icon"></i>Secure & Confidential
+            </span>
+          </div>
+
+          <h1 class="text-5xl md:text-6xl font-display font-bold text-gray-900 leading-tight">
+            Your Voice,
+            <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Our Priority
+            </span>
+          </h1>
+
+          <p class="text-xl text-gray-600 leading-relaxed">
+            Submit complaints securely and track their resolution in
+            real-time. We ensure every voice is heard and every concern is
+            addressed promptly.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="complaint-form.html"
+              class="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+              <i data-lucide="send" class="lucide-icon"></i>
+              Submit Complaint
+              <i data-lucide="arrow-right" class="lucide-icon group-hover:translate-x-2 transition-transform"></i>
+            </a>
+
+            <button onclick="scrollToTrack()"
+              class="bg-white text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg border-2 border-gray-200 hover:border-blue-600 hover:text-blue-600 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3">
+              <i data-lucide="search" class="lucide-icon"></i>
+              Track Status
+            </button>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-6 pt-8">
+            <div class="text-center">
+              <div class="text-3xl font-bold text-blue-600">0</div>
+              <div class="text-sm text-gray-600 mt-1">Resolved</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-green-600">0%</div>
+              <div class="text-sm text-gray-600 mt-1">Satisfaction</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-purple-600">0</div>
+              <div class="text-sm text-gray-600 mt-1">Avg Response</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Illustration -->
+        <div class="relative hidden md:block">
+          <div class="relative z-10">
+            <img src="https://illustrations.popsy.co/amber/customer-support.svg" alt="Complaint Management"
+              class="w-full h-auto drop-shadow-2xl" />
+          </div>
+          <!-- Decorative Elements -->
+          <div
+            class="absolute top-0 right-0 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
+          </div>
+          <div
+            class="absolute bottom-0 left-0 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 px-4 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">
+          Why Choose Our System?
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          A modern, secure, and efficient platform designed for the university
+          community
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div
+          class="group bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-blue-100">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="user-check" class="lucide-icon lucide-icon-xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">
+            Anonymous Option
+          </h3>
+          <p class="text-gray-600 leading-relaxed">
+            Submit complaints anonymously for sensitive issues. Your identity
+            is protected with end-to-end encryption.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div
+          class="group bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-green-100">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="clock" class="lucide-icon lucide-icon-xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">
+            Real-Time Tracking
+          </h3>
+          <p class="text-gray-600 leading-relaxed">
+            Track your complaint status in real-time with instant
+            notifications and updates at every step.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div
+          class="group bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-purple-100">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="zap" class="lucide-icon lucide-icon-xl text-white"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">
+            Quick Resolution
+          </h3>
+          <p class="text-gray-600 leading-relaxed">
+            Smart routing ensures your complaint reaches the right authority
+            instantly for faster resolution.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complaint Types Section -->
+  <section class="py-20 px-4 bg-gradient-to-br from-slate-50 to-blue-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">
+          Complaint Categories
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          We handle all types of concerns from students, teachers, and staff
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Category 1 -->
+        <div
+          class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+            <i data-lucide="graduation-cap" class="lucide-icon lucide-icon-lg text-blue-600"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">
+            Academic Issues
+          </h3>
+          <p class="text-sm text-gray-600">
+            Teaching, exams, grading, assignments
+          </p>
+        </div>
+
+        <!-- Category 2 -->
+        <div
+          class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+            <i data-lucide="building-2" class="lucide-icon lucide-icon-lg text-green-600"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Infrastructure</h3>
+          <p class="text-sm text-gray-600">
+            Facilities, labs, library, hostels
+          </p>
+        </div>
+
+        <!-- Category 3 -->
+        <div
+          class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+            <i data-lucide="file-text" class="lucide-icon lucide-icon-lg text-purple-600"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Administrative</h3>
+          <p class="text-sm text-gray-600">Fees, documents, registration</p>
+        </div>
+
+        <!-- Category 4 -->
+        <div
+          class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+            <i data-lucide="shield-alert" class="lucide-icon lucide-icon-lg text-red-600"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">
+            Safety & Harassment
+          </h3>
+          <p class="text-sm text-gray-600">
+            Security, ragging, discrimination
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Submit Complaint CTA Section -->
+  <section id="submit" class="py-20 px-4 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <div
+        class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-12 md:p-16 shadow-2xl relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -mr-32 -mt-32"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-10 rounded-full -ml-24 -mb-24"></div>
+
+        <div class="relative z-10">
+          <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6">
+            <i data-lucide="file-text" class="lucide-icon text-white" style="width: 2.5rem; height: 2.5rem;"></i>
+          </div>
+
+          <h2 class="text-4xl md:text-5xl font-display font-bold text-white mb-6">
+            Ready to Submit Your Complaint?
+          </h2>
+
+          <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Use our step-by-step complaint form with helpful guidance at every step.
+            It's easy, secure, and takes just a few minutes.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <div class="flex items-center gap-2 text-white">
+              <i data-lucide="check-circle" class="lucide-icon text-green-300"></i>
+              <span>Step-by-step wizard</span>
+            </div>
+            <div class="flex items-center gap-2 text-white">
+              <i data-lucide="check-circle" class="lucide-icon text-green-300"></i>
+              <span>Helpful tooltips</span>
+            </div>
+            <div class="flex items-center gap-2 text-white">
+              <i data-lucide="check-circle" class="lucide-icon text-green-300"></i>
+              <span>Secure & verified</span>
+            </div>
+          </div>
+
+          <a href="complaint-form.html"
+            class="inline-flex items-center gap-3 bg-white text-blue-600 px-10 py-5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+            <i data-lucide="send" class="lucide-icon"></i>
+            Go to Complaint Form
+            <i data-lucide="arrow-right" class="lucide-icon"></i>
+          </a>
+
+          <p class="text-sm text-blue-200 mt-6 flex items-center justify-center gap-1">
+            <i data-lucide="lock" class="lucide-icon"></i>
+            Your information is secure and confidential
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Track Complaint Section -->
+  <section id="track" class="py-20 px-4 bg-gradient-to-br from-slate-50 to-blue-50">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">
+          Track Your Complaint
+        </h2>
+        <p class="text-xl text-gray-600">
+          Enter your complaint ID to check the current status
+        </p>
+      </div>
+
+      <div class="bg-white p-8 md:p-12 rounded-2xl shadow-xl">
+        <div class="flex gap-4 mb-8">
+          <input type="text" id="trackingId" placeholder="Enter Complaint ID (e.g., CMP-2024-001234)"
+            class="flex-1 px-6 py-4 rounded-xl border-2 border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-lg" />
+          <button onclick="trackComplaint()"
+            class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+            <i data-lucide="search" class="lucide-icon"></i>Track
+          </button>
+        </div>
+
+        <!-- Tracking Result (Hidden by default) -->
+        <div id="trackingResult" class="hidden">
+          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl mb-6">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">
+                  Complaint #CMP-2024-001234
+                </h3>
+                <p class="text-gray-600">Submitted on Nov 20, 2024</p>
+              </div>
+              <span
+                class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-semibold inline-flex items-center gap-2">
+                <i data-lucide="clock" class="lucide-icon"></i>In Progress
+              </span>
+            </div>
+            <div class="border-t border-gray-200 pt-4">
+              <p class="text-gray-700">
+                <strong>Title:</strong> Unfair grading in DSA exam
+              </p>
+              <p class="text-gray-700 mt-2">
+                <strong>Category:</strong> Academic Issues
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="space-y-6">
+            <h4 class="text-lg font-bold text-gray-900">Status Timeline</h4>
+
+            <div class="relative pl-8 border-l-2 border-blue-600">
+              <div class="absolute -left-2.5 top-0 w-5 h-5 bg-blue-600 rounded-full"></div>
+              <div class="mb-6">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="font-semibold text-gray-900">Under Review</span>
+                  <span class="text-sm text-gray-500">Nov 26, 2024 - 3:30 PM</span>
+                </div>
+                <p class="text-gray-600">
+                  Your complaint has been assigned to Dr. Ravi Shankar for
+                  review.
+                </p>
+              </div>
+            </div>
+
+            <div class="relative pl-8 border-l-2 border-gray-300">
+              <div class="absolute -left-2.5 top-0 w-5 h-5 bg-green-600 rounded-full"></div>
+              <div class="mb-6">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="font-semibold text-gray-900">Complaint Received</span>
+                  <span class="text-sm text-gray-500">Nov 20, 2024 - 2:18 PM</span>
+                </div>
+                <p class="text-gray-600">
+                  Your complaint has been successfully submitted and verified.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="py-20 px-4 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p class="text-xl text-gray-600">
+          Find answers to common questions about the complaint system
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl overflow-hidden border border-blue-100">
+          <button onclick="toggleFAQ(1)"
+            class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-blue-100 transition-all">
+            <span class="font-semibold text-gray-900 text-lg">How long does it take to resolve a complaint?</span>
+            <i data-lucide="chevron-down" class="lucide-icon text-blue-600 transition-transform" id="faq-icon-1"></i>
+          </button>
+          <div id="faq-content-1" class="hidden px-6 pb-5">
+            <p class="text-gray-700 leading-relaxed">
+              Most complaints are resolved within 3-5 working days. Critical
+              issues are prioritized and addressed within 24 hours. You'll
+              receive regular updates via email and SMS.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl overflow-hidden border border-blue-100">
+          <button onclick="toggleFAQ(2)"
+            class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-blue-100 transition-all">
+            <span class="font-semibold text-gray-900 text-lg">Can I submit an anonymous complaint?</span>
+            <i data-lucide="chevron-down" class="lucide-icon text-blue-600 transition-transform" id="faq-icon-2"></i>
+          </button>
+          <div id="faq-content-2" class="hidden px-6 pb-5">
+            <p class="text-gray-700 leading-relaxed">
+              Yes, you can submit anonymous complaints for sensitive issues
+              like harassment or discrimination. Your identity will be
+              completely protected throughout the process.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl overflow-hidden border border-blue-100">
+          <button onclick="toggleFAQ(3)"
+            class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-blue-100 transition-all">
+            <span class="font-semibold text-gray-900 text-lg">What types of complaints can I submit?</span>
+            <i data-lucide="chevron-down" class="lucide-icon text-blue-600 transition-transform" id="faq-icon-3"></i>
+          </button>
+          <div id="faq-content-3" class="hidden px-6 pb-5">
+            <p class="text-gray-700 leading-relaxed">
+              You can submit complaints related to academic issues,
+              infrastructure, administrative matters, harassment, safety
+              concerns, and any other university-related issues.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl overflow-hidden border border-blue-100">
+          <button onclick="toggleFAQ(4)"
+            class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-blue-100 transition-all">
+            <span class="font-semibold text-gray-900 text-lg">How will I be notified about updates?</span>
+            <i data-lucide="chevron-down" class="lucide-icon text-blue-600 transition-transform" id="faq-icon-4"></i>
+          </button>
+          <div id="faq-content-4" class="hidden px-6 pb-5">
+            <p class="text-gray-700 leading-relaxed">
+              You'll receive notifications via email and SMS at every stage of
+              the complaint resolution process. You can also track your
+              complaint status anytime using your complaint ID.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <!-- Top Section Vertical Row -->
+      <div>
+        <!-- Send Us a Message Form -->
+        <div class="contact-form-section">
+          <h3>Send Us a Message</h3>
+          <form action="#" method="POST" class="footer-contact-form">
+            <div class="form-group">
+              <input type="text" name="name" placeholder="Your Name" required class="form-input">
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" placeholder="Your Email" required class="form-input">
+            </div>
+            <div class="form-group">
+              <input type="text" name="subject" placeholder="Subject" required class="form-input">
+            </div>
+            <div class="form-group">
+              <textarea name="message" rows="4" placeholder="Your Message" required class="form-input"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+
+        <!-- Map Location -->
+        <div>
+          <h3>Our Location</h3>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3663.150057879!2d85.13531333076455!3d25.617777111940942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f2e7f7b7b7b7b7%3A0x0!2sPatliputra%20University!5e0!3m2!1sen!2sin!4v1690000000000!5m2!1sen!2sin"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          <p>Old Bypass Road, Kankarbagh, Patna-800020, Bihar, India</p>
+        </div>
+
+        <!-- Affiliated Colleges -->
+        <div>
+          <h3>Affiliated Colleges</h3>
+          <div>
+            <a href="https://www.ancpatna.ac.in/" target="_blank" rel="noopener">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b2/AN_College_Patna.svg/330px-AN_College_Patna.svg.png"
+                alt="AN College, Patna logo">
+              <span>AN College, Patna</span>
+            </a>
+            <a href="http://www.jdwcpatna.ac.in/" target="_blank" rel="noopener">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/en/thumb/9/93/JD_Women%27s_College_logo.svg/375px-JD_Women%27s_College_logo.svg.png"
+                alt="JD Women's College, Patna logo">
+              <span>JD Women's College, Patna</span>
+            </a>
+            <a href="https://nalandacollege.ac.in/" target="_blank" rel="noopener">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Stamp_of_India_-_1970_-_Colnect_371761_-_Centenary_of_Nalanda_College.jpeg/396px-Stamp_of_India_-_1970_-_Colnect_371761_-_Centenary_of_Nalanda_College.jpeg"
+                alt="Nalanda College, Biharsharif logo">
+              <span>Nalanda College, Biharsharif</span>
+            </a>
+            <a href="https://www.cocaspatna.ac.in/" target="_blank" rel="noopener">
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/94/COCAS_Logo.svg/250px-COCAS_Logo.svg.png"
+                alt="College Of Commerce, Patna logo">
+              <span>College Of Commerce, Patna</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN ROW – Brand + Social + 5 Columns -->
+      <div class="flex flex-col lg:flex-row gap-12">
+
+        <!-- LEFT: Brand + Social -->
+        <div class="flex flex-col space-y-6 lg:w-64">
+          <!-- Brand -->
+          <div class="flex items-center">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Patliputra_University.svg/270px-Patliputra_University.svg.png"
+              alt="Patliputra University Logo" class="h-9 mr-2.5">
+            <span class="text-2xl font-semibold text-gray-900">Patliputra University</span>
+          </div>
+
+          <!-- Social Icons -->
+          <div class="flex space-x-5">
+            <a href="https://www.facebook.com/PatliputraUniversityPPU/" aria-label="Facebook"
+              class="text-gray-500 hover:text-blue-600 text-xl transition-all duration-200 hover:scale-110">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://twitter.com/PatliputraUniv" aria-label="X (Twitter)"
+              class="text-gray-500 hover:text-blue-600 text-xl transition-all duration-200 hover:scale-110">
+              <i class="fab fa-x-twitter"></i>
+            </a>
+            <a href="https://www.instagram.com/patliputrauniversity/" aria-label="Instagram"
+              class="text-gray-500 hover:text-blue-600 text-xl transition-all duration-200 hover:scale-110">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.youtube.com/@PatliputraUniversityPPU" aria-label="YouTube"
+              class="text-gray-500 hover:text-blue-600 text-xl transition-all duration-200 hover:scale-110">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://in.linkedin.com/company/patliputrauniversity" aria-label="LinkedIn"
+              class="text-gray-500 hover:text-blue-600 text-xl transition-all duration-200 hover:scale-110">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT: Five link columns -->
+        <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+
+          <!-- Column 1 -->
+          <div>
+            <h4 class="text-lg font-semibold mb-3 text-gray-900"><i class="fas fa-graduation-cap mr-2"></i>Our Programs
+            </h4>
+            <a href="https://ppup.ac.in/academics/ug"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Undergraduate
+              Programs</a>
+            <a href="https://ppup.ac.in/academics/pg"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Postgraduate Programs</a>
+            <a href="https://ppup.ac.in/phd"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Ph.D. Programs</a>
+            <a href="https://ppup.ac.in/examinations"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Examinations</a>
+            <a href="https://ppup.ac.in/admissions"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Admissions</a>
+            <a href="https://ppup.ac.in/syllabus"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Syllabus</a>
+            <a href="https://ppup.ac.in/results"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Results</a>
+            <a href="https://ppup.ac.in/library"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Library</a>
+            <a href="https://ppup.ac.in/research"
+              class="block text-gray-600 hover:text-blue-600 text-sm transition-colors">Research</a>
+          </div>
+
+          <!-- Column 2 -->
+          <div>
+            <h4 class="text-lg font-semibold mb-3 text-gray-900"><i class="fas fa-school mr-2"></i>BIHAR Education</h4>
+            <a href="https://secondary.biharboardonline.com/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">BSEB</a>
+            <a href="https://education.bih.nic.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Higher Education
+              Dept.</a>
+            <a href="https://state.bihar.gov.in/educationbihar/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Education Portal</a>
+            <a href="https://bihareducationportal.com/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Bihar Edu Portal</a>
+            <a href="http://nalandaopenuniversity.com/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Nalanda Open Univ.</a>
+            <a href="https://www.7nishchay-yuvaupmission.bihar.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Student Credit Card</a>
+            <a href="https://state.bihar.gov.in/educationbihar/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Balika Cycle Yojana</a>
+            <a href="https://www.pmsonline.bih.nic.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm transition-colors">Scholarships Bihar</a>
+          </div>
+
+          <!-- Column 3 -->
+          <div>
+            <h4 class="text-lg font-semibold mb-3 text-gray-900"><i class="fas fa-handshake mr-2"></i>Central Schemes
+            </h4>
+            <a href="https://samagra.education.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Samagra Shiksha</a>
+            <a href="https://www.education.gov.in/pm-usp"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">PM-USP</a>
+            <a href="https://www.ema.co.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">PM Scholarship</a>
+            <a href="https://scholarships.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">NMM Scholarship</a>
+            <a href="https://www.education.gov.in/en/interest-subsidy-education-loan"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Edu Loan Subsidy</a>
+            <a href="https://betibachao.betipadhao.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Beti Bachao</a>
+            <a href="https://dsel.education.gov.in/mdms"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Mid-Day Meal</a>
+            <a href="https://swayam.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm transition-colors">SWAYAM Courses</a>
+          </div>
+
+          <!-- Column 4 -->
+          <div>
+            <h4 class="text-lg font-semibold mb-3 text-gray-900"><i class="fas fa-gavel mr-2"></i>Authorities</h4>
+            <a href="https://www.education.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Ministry of Education</a>
+            <a href="https://www.ugc.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">UGC</a>
+            <a href="https://www.aicte-india.org/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">AICTE</a>
+            <a href="https://ncert.nic.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">NCERT</a>
+            <a href="https://www.cbse.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">CBSE</a>
+            <a href="https://www.education.gov.in/nde-ar"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">NDEAR</a>
+            <a href="https://scholarships.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">NSP</a>
+            <a href="https://epgp.inflibnet.ac.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">e-PG Pathshala</a>
+            <a href="https://www.swayamprabha.gov.in/"
+              class="block text-gray-600 hover:text-blue-600 text-sm transition-colors">SWAYAMPRABHA</a>
+          </div>
+
+          <!-- Column 5 -->
+          <div>
+            <h4 class="text-lg font-semibold mb-3 text-gray-900"><i class="fas fa-link mr-2"></i>Important Links</h4>
+            <a href="https://ppup.ac.in/grievance"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Grievance Portal</a>
+            <a href="https://ppup.ac.in/exam-help"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Exam Helpdesk</a>
+            <a href="https://ppup.ac.in/career"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Career Guidance</a>
+            <a href="https://ppup.ac.in/alumni"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Alumni</a>
+            <a href="https://ppup.ac.in/contact"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Contact Us</a>
+            <a href="https://ppup.ac.in/careers"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Careers</a>
+            <a href="https://ppup.ac.in/contribute"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Contributing</a>
+            <a href="https://ppup.ac.in/about"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">About PPU</a>
+            <a href="https://ppup.ac.in/vc-message"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">VC Message</a>
+            <a href="https://ppup.ac.in/governance"
+              class="block text-gray-600 hover:text-blue-600 text-sm mb-1.5 transition-colors">Governance</a>
+            <a href="https://ppup.ac.in/colleges"
+              class="block text-gray-600 hover:text-blue-600 text-sm transition-colors">Affiliated Colleges</a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Copyright Section -->
+      <div class="copyright-section">
+        <div class="copyright-content">
+          <p>&copy; 2026 Patliputra University. All Rights Reserved.</p>
+          <p class="developed-by">Developed by <a href="https://studycamp.tech" target="_blank"
+              rel="noopener">Studycamp</a></p>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Login Modal (Hidden by default) -->
+  <div id="loginModal"
+    class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <i data-lucide="x" class="lucide-icon lucide-icon-lg"></i>
+      </button>
+
+      <h2 class="text-3xl font-display font-bold text-gray-900 mb-6">
+        Login
+      </h2>
+
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">User ID</label>
+          <input type="text"
+            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="Enter your ID" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <input type="password"
+            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="Enter password" />
+        </div>
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+          Login
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/PPU_cms.js"></script>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+
+</html>

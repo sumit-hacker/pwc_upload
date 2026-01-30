@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patliputra University - Complaint Management System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Grenze:wght@300;400;500;600;700&family=Great+Vibes&family=Quintessential&family=Alkatra:wght@400;500;600;700&family=Bodoni+Moda+SC:wght@400;500;600;700;800&family=Eagle+Lake&family=Festive&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/complaint-styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="assets/ppu_logo.png" alt="Patliputra University Logo" class="header-logo">
+                    <div class="logo-text">
+                        <h1>Patliputra University</h1>
+                        <p>Complaint Management System</p>
+                    </div>
+                </div>
+                <a href="/" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="container">
+            <!-- Progress Indicator -->
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">User Type</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Details</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Category</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">Complaint</div>
+                    </div>
+                    <div class="step" data-step="5">
+                        <div class="step-circle">5</div>
+                        <div class="step-label">Review</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="complaintForm" class="complaint-form">
+
+                <!-- Step 1: User Type Selection -->
+                <div class="form-step active" data-step="1">
+                    <h2 class="step-title">Who are you?</h2>
+                    <p class="step-description">Select your role in the university to customize your complaint form</p>
+
+                    <div class="user-type-grid">
+                        <div class="user-type-card" data-type="student">
+                            <div class="card-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h3>Student</h3>
+                            <p>Individual or group of students</p>
+                            <div class="radio-wrapper">
+                                <input type="radio" name="userType" value="student" id="userStudent">
+                                <label for="userStudent">Select</label>
+                            </div>
+                        </div>
+
+                        <div class="user-type-card" data-type="teacher">
+                            <div class="card-icon">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <h3>Teacher</h3>
+                            <p>Faculty member or department</p>
+                            <div class="radio-wrapper">
+                                <input type="radio" name="userType" value="teacher" id="userTeacher">
+                                <label for="userTeacher">Select</label>
+                            </div>
+                        </div>
+
+                        <div class="user-type-card" data-type="staff">
+                            <div class="card-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3>Staff</h3>
+                            <p>Administrative or support staff</p>
+                            <div class="radio-wrapper">
+                                <input type="radio" name="userType" value="staff" id="userStaff">
+                                <label for="userStaff">Select</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="complaint-scope-section" id="complaintScopeSection" style="display: none;">
+                        <h3 class="section-subtitle">Filing on behalf of:</h3>
+                        <div class="scope-options">
+                            <label class="scope-option">
+                                <input type="radio" name="complaintScope" value="individual">
+                                <span class="scope-content">
+                                    <i class="fas fa-user"></i>
+                                    <strong>Individual</strong>
+                                    <small>Filing for yourself</small>
+                                </span>
+                            </label>
+                            <label class="scope-option">
+                                <input type="radio" name="complaintScope" value="group">
+                                <span class="scope-content">
+                                    <i class="fas fa-users"></i>
+                                    <strong>Group</strong>
+                                    <small>On behalf of multiple people</small>
+                                </span>
+                            </label>
+                            <label class="scope-option">
+                                <input type="radio" name="complaintScope" value="department">
+                                <span class="scope-content">
+                                    <i class="fas fa-building"></i>
+                                    <strong>Department/Batch</strong>
+                                    <small>Entire department or batch</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="visibility-section" id="visibilitySection" style="display: none;">
+                        <h3 class="section-subtitle">Complaint Visibility:</h3>
+                        <div class="visibility-options">
+                            <label class="visibility-option">
+                                <input type="radio" name="visibility" value="public">
+                                <span class="visibility-content">
+                                    <i class="fas fa-globe"></i>
+                                    <strong>Public</strong>
+                                    <small>Visible to everyone</small>
+                                </span>
+                            </label>
+                            <label class="visibility-option">
+                                <input type="radio" name="visibility" value="private">
+                                <span class="visibility-content">
+                                    <i class="fas fa-lock"></i>
+                                    <strong>Private</strong>
+                                    <small>Only authorities can view</small>
+                                </span>
+                            </label>
+                            <label class="visibility-option">
+                                <input type="radio" name="visibility" value="anonymous">
+                                <span class="visibility-content">
+                                    <i class="fas fa-user-secret"></i>
+                                    <strong>Anonymous</strong>
+                                    <small>Identity protected</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Personal Details -->
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title">Your Information</h2>
+                    <p class="step-description">Please provide your accurate details for verification and communication
+                    </p>
+
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="fullName">
+                                <i class="fas fa-user"></i> Full Name *
+                            </label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userId">
+                                <i class="fas fa-id-card"></i> University ID *
+                            </label>
+                            <input type="text" id="userId" name="userId" placeholder="e.g., STU202401234" required>
+                            <small class="help-text">Your student/employee ID</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fas fa-envelope"></i> University Email *
+                            </label>
+                            <input type="email" id="email" name="email" placeholder="yourname@pppuniversity.ac.in"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">
+                                <i class="fas fa-phone"></i> Phone Number *
+                            </label>
+                            <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alternatePhone">
+                                <i class="fas fa-phone-alt"></i> Alternate Phone
+                            </label>
+                            <input type="tel" id="alternatePhone" name="alternatePhone" placeholder="+91 9876543210">
+                        </div>
+
+                        <!-- Student Specific Fields -->
+                        <div class="student-fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="college">
+                                    <i class="fas fa-school"></i> College *
+                                </label>
+                                <select id="college" name="college">
+                                    <option value="">Select College</option>
+                                    <option value="anc">Anugrah Narayan College (A.N. College)</option>
+                                    <option value="cocas">College of Commerce, Arts & Science (COCAS)</option>
+                                    <option value="jdw">J. D. Women's College</option>
+                                    <option value="nalanda">Nalanda College</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="department">
+                                    <i class="fas fa-building"></i> Department *
+                                </label>
+                                <select id="department" name="department">
+                                    <option value="">Select Department</option>
+                                    <option value="cs">Computer Science & IT</option>
+                                    <option value="ba">Business Administration</option>
+                                    <option value="biotech">Biotechnology</option>
+                                    <option value="physics">Physics</option>
+                                    <option value="chemistry">Chemistry</option>
+                                    <option value="math">Mathematics</option>
+                                    <option value="history">History</option>
+                                    <option value="economics">Economics</option>
+                                    <option value="english">English</option>
+                                    <option value="commerce">Commerce</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="program">
+                                    <i class="fas fa-graduation-cap"></i> Program *
+                                </label>
+                                <select id="program" name="program">
+                                    <option value="">Select Program</option>
+                                    <option value="bca">BCA</option>
+                                    <option value="bba">BBA</option>
+                                    <option value="bsc">B.Sc</option>
+                                    <option value="ba">B.A</option>
+                                    <option value="bcom">B.Com</option>
+                                    <option value="mca">MCA</option>
+                                    <option value="mba">MBA</option>
+                                    <option value="msc">M.Sc</option>
+                                    <option value="ma">M.A</option>
+                                    <option value="mcom">M.Com</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="batch">
+                                    <i class="fas fa-calendar"></i> Batch Year *
+                                </label>
+                                <select id="batch" name="batch">
+                                    <option value="">Select Year</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="semester">
+                                    <i class="fas fa-book"></i> Current Semester *
+                                </label>
+                                <select id="semester" name="semester">
+                                    <option value="">Select Semester</option>
+                                    <option value="1">1st Semester</option>
+                                    <option value="2">2nd Semester</option>
+                                    <option value="3">3rd Semester</option>
+                                    <option value="4">4th Semester</option>
+                                    <option value="5">5th Semester</option>
+                                    <option value="6">6th Semester</option>
+                                    <option value="7">7th Semester</option>
+                                    <option value="8">8th Semester</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Teacher Specific Fields -->
+                        <div class="teacher-fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="teacherDepartment">
+                                    <i class="fas fa-building"></i> Department *
+                                </label>
+                                <select id="teacherDepartment" name="teacherDepartment">
+                                    <option value="">Select Department</option>
+                                    <option value="cs">Computer Science & IT</option>
+                                    <option value="ba">Business Administration</option>
+                                    <option value="biotech">Biotechnology</option>
+                                    <option value="physics">Physics</option>
+                                    <option value="chemistry">Chemistry</option>
+                                    <option value="math">Mathematics</option>
+                                    <option value="history">History</option>
+                                    <option value="economics">Economics</option>
+                                    <option value="english">English</option>
+                                    <option value="commerce">Commerce</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="designation">
+                                    <i class="fas fa-user-tag"></i> Designation *
+                                </label>
+                                <select id="designation" name="designation">
+                                    <option value="">Select Designation</option>
+                                    <option value="professor">Professor</option>
+                                    <option value="associate">Associate Professor</option>
+                                    <option value="assistant">Assistant Professor</option>
+                                    <option value="lecturer">Lecturer</option>
+                                    <option value="guest">Guest Faculty</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="experience">
+                                    <i class="fas fa-briefcase"></i> Years of Experience *
+                                </label>
+                                <input type="number" id="experience" name="experience" min="0" max="50">
+                            </div>
+                        </div>
+
+                        <!-- Staff Specific Fields -->
+                        <div class="staff-fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="staffDepartment">
+                                    <i class="fas fa-building"></i> Department *
+                                </label>
+                                <select id="staffDepartment" name="staffDepartment">
+                                    <option value="">Select Department</option>
+                                    <option value="admin">Administration</option>
+                                    <option value="accounts">Accounts</option>
+                                    <option value="library">Library</option>
+                                    <option value="it">IT Support</option>
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="security">Security</option>
+                                    <option value="hostel">Hostel Management</option>
+                                    <option value="transport">Transport</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="staffRole">
+                                    <i class="fas fa-user-tag"></i> Role *
+                                </label>
+                                <input type="text" id="staffRole" name="staffRole" placeholder="e.g., Senior Clerk">
+                            </div>
+                        </div>
+
+                        <!-- Group Details (shown when group/department is selected) -->
+                        <div class="group-details full-width" style="display: none;">
+                            <h3 class="section-subtitle">Group Information</h3>
+
+                            <div class="form-group">
+                                <label for="groupName">
+                                    <i class="fas fa-users"></i> Group Name/Identifier *
+                                </label>
+                                <input type="text" id="groupName" name="groupName" placeholder="e.g., BCA 2024 Batch A">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="groupSize">
+                                    <i class="fas fa-hashtag"></i> Number of Members *
+                                </label>
+                                <input type="number" id="groupSize" name="groupSize" min="2" placeholder="Minimum 2">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="groupMembers">
+                                    <i class="fas fa-list"></i> Member List
+                                </label>
+                                <textarea id="groupMembers" name="groupMembers" rows="4"
+                                    placeholder="Enter member names (one per line) or upload CSV file"></textarea>
+                                <div class="file-upload-wrapper">
+                                    <input type="file" id="memberListFile" accept=".csv,.txt" style="display: none;">
+                                    <button type="button" class="btn-secondary"
+                                        onclick="document.getElementById('memberListFile').click()">
+                                        <i class="fas fa-upload"></i> Upload Member List (CSV)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Complaint Category -->
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title">Categorize Your Complaint</h2>
+                    <p class="step-description">Help us route your complaint to the right department</p>
+
+                    <div class="category-grid">
+                        <div class="category-card" data-category="academic">
+                            <input type="radio" name="primaryCategory" value="academic" id="catAcademic">
+                            <label for="catAcademic">
+                                <div class="category-icon">📚</div>
+                                <h4>Academic Issues</h4>
+                                <p>Exams, grades, curriculum, teaching quality</p>
+                            </label>
+                        </div>
+
+                        <div class="category-card" data-category="infrastructure">
+                            <input type="radio" name="primaryCategory" value="infrastructure" id="catInfra">
+                            <label for="catInfra">
+                                <div class="category-icon">🏢</div>
+                                <h4>Infrastructure</h4>
+                                <p>Classrooms, labs, facilities, maintenance</p>
+                            </label>
+                        </div>
+
+                        <div class="category-card" data-category="administrative">
+                            <input type="radio" name="primaryCategory" value="administrative" id="catAdmin">
+                            <label for="catAdmin">
+                                <div class="category-icon">📋</div>
+                                <h4>Administrative</h4>
+                                <p>Documentation, fees, registration</p>
+                            </label>
+                        </div>
+
+                        <div class="category-card" data-category="harassment">
+                            <input type="radio" name="primaryCategory" value="harassment" id="catHarassment">
+                            <label for="catHarassment">
+                                <div class="category-icon">🛡️</div>
+                                <h4>Safety & Harassment</h4>
+                                <p>Security, bullying, discrimination</p>
+                            </label>
+                        </div>
+
+                        <div class="category-card" data-category="conduct">
+                            <input type="radio" name="primaryCategory" value="conduct" id="catConduct">
+                            <label for="catConduct">
+                                <div class="category-icon">👥</div>
+                                <h4>Student Conduct</h4>
+                                <p>Behavior, discipline, code of conduct</p>
+                            </label>
+                        </div>
+
+                        <div class="category-card" data-category="other">
+                            <input type="radio" name="primaryCategory" value="other" id="catOther">
+                            <label for="catOther">
+                                <div class="category-icon">📌</div>
+                                <h4>Other</h4>
+                                <p>General concerns and suggestions</p>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="subcategory-section" id="subcategorySection" style="display: none;">
+                        <div class="form-group">
+                            <label for="subCategory">
+                                <i class="fas fa-list-ul"></i> Sub-Category *
+                            </label>
+                            <select id="subCategory" name="subCategory" required>
+                                <option value="">Select Sub-Category</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complaintLevel">
+                            <i class="fas fa-layer-group"></i> Complaint Scope *
+                        </label>
+                        <select id="complaintLevel" name="complaintLevel" required>
+                            <option value="">Select Scope</option>
+                            <option value="university">🏛️ University Level</option>
+                            <option value="college">🏫 College Level</option>
+                            <option value="department">🎓 Department Level</option>
+                            <option value="course">📖 Course/Subject Level</option>
+                        </select>
+                    </div>
+
+                    <div class="course-details" id="courseDetails" style="display: none;">
+                        <h3 class="section-subtitle">Course Details</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="courseCode">
+                                    <i class="fas fa-code"></i> Course Code
+                                </label>
+                                <input type="text" id="courseCode" name="courseCode" placeholder="e.g., CS101">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="courseName">
+                                    <i class="fas fa-book-open"></i> Course Name
+                                </label>
+                                <input type="text" id="courseName" name="courseName"
+                                    placeholder="e.g., Data Structures">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="facultyName">
+                                    <i class="fas fa-chalkboard-teacher"></i> Faculty Name (if applicable)
+                                </label>
+                                <input type="text" id="facultyName" name="facultyName"
+                                    placeholder="Name of the faculty member">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Complaint Details -->
+                <div class="form-step" data-step="4">
+                    <h2 class="step-title">Describe Your Complaint</h2>
+                    <p class="step-description">Provide detailed information to help us understand and resolve your
+                        issue</p>
+
+                    <div class="form-group">
+                        <label for="complaintTitle">
+                            <i class="fas fa-heading"></i> Complaint Title *
+                        </label>
+                        <input type="text" id="complaintTitle" name="complaintTitle" maxlength="100" required
+                            placeholder="Brief summary of your complaint">
+                        <small class="char-count">0/100 characters</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complaintDescription">
+                            <i class="fas fa-align-left"></i> Detailed Description *
+                        </label>
+                        <textarea id="complaintDescription" name="complaintDescription" rows="8" required
+                            placeholder="Please provide a detailed description of your complaint. Include dates, names, locations, and any other relevant information..."></textarea>
+                        <small class="char-count-desc">0 characters (minimum 50 required)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="urgency">
+                            <i class="fas fa-exclamation-circle"></i> Urgency Level *
+                        </label>
+                        <div class="urgency-options">
+                            <label class="urgency-option low">
+                                <input type="radio" name="urgency" value="low" required>
+                                <span class="urgency-content">
+                                    <i class="fas fa-clock"></i>
+                                    <strong>Low</strong>
+                                    <small>Can wait</small>
+                                </span>
+                            </label>
+                            <label class="urgency-option medium">
+                                <input type="radio" name="urgency" value="medium">
+                                <span class="urgency-content">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <strong>Medium</strong>
+                                    <small>Soon</small>
+                                </span>
+                            </label>
+                            <label class="urgency-option high">
+                                <input type="radio" name="urgency" value="high">
+                                <span class="urgency-content">
+                                    <i class="fas fa-bolt"></i>
+                                    <strong>High</strong>
+                                    <small>Quick action needed</small>
+                                </span>
+                            </label>
+                            <label class="urgency-option critical">
+                                <input type="radio" name="urgency" value="critical">
+                                <span class="urgency-content">
+                                    <i class="fas fa-fire"></i>
+                                    <strong>Critical</strong>
+                                    <small>Immediate</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attachments">
+                            <i class="fas fa-paperclip"></i> Attachments (Optional)
+                        </label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <input type="file" id="attachments" name="attachments" multiple
+                                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;">
+                            <div class="upload-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload or drag and drop</p>
+                                <small>PDF, JPG, PNG, DOC, DOCX (Max 10MB per file)</small>
+                            </div>
+                            <div class="file-list" id="fileList"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="smsVerification" name="smsVerification">
+                            <span>
+                                <i class="fas fa-sms"></i>
+                                Enable SMS Verification (Optional)
+                                <small>Verify your phone number for faster processing and updates</small>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="otp-section" id="otpSection" style="display: none;">
+                        <div class="form-group">
+                            <button type="button" class="btn-secondary" id="sendOtpBtn">
+                                <i class="fas fa-paper-plane"></i> Send OTP
+                            </button>
+                        </div>
+                        <div class="form-group otp-input-group" id="otpInputGroup" style="display: none;">
+                            <label for="otpInput">Enter OTP</label>
+                            <input type="text" id="otpInput" maxlength="6" placeholder="6-digit OTP">
+                            <button type="button" class="btn-secondary" id="verifyOtpBtn">Verify</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Review and Submit -->
+                <div class="form-step" data-step="5">
+                    <h2 class="step-title">Review Your Complaint</h2>
+                    <p class="step-description">Please review all information before submission</p>
+
+                    <div class="review-section" id="reviewContent">
+                        <!-- Dynamic review content will be inserted here -->
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label required">
+                            <input type="checkbox" id="termsAccept" required>
+                            <span>
+                                I confirm that the information provided is accurate and I agree to the
+                                <a href="#" target="_blank">Terms & Conditions</a> and
+                                <a href="#" target="_blank">Privacy Policy</a> *
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="captcha-wrapper">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="captcha" required>
+                            <span>I'm not a robot *</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
+                        <i class="fas fa-check-circle"></i> Submit Complaint
+                    </button>
+                </div>
+            </form>
+
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <p>Submitting your complaint...</p>
+            </div>
+
+            <!-- Success Modal -->
+            <div class="modal" id="successModal">
+                <div class="modal-content success">
+                    <div class="modal-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Complaint Submitted Successfully!</h2>
+                    <p>Your complaint has been registered.</p>
+                    <p class="complaint-id">Complaint ID: <strong id="complaintIdDisplay"></strong></p>
+                    <p class="info-text">You will receive updates via email and SMS. Please save this complaint ID for
+                        future reference.</p>
+                    <button class="btn btn-primary" onclick="window.location.reload()">
+                        Submit Another Complaint
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='PPU_CMS.html'">
+                        Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Support</h4>
+                    <p><i class="fas fa-phone"></i> +91-612-2234567</p>
+                    <p><i class="fas fa-envelope"></i> complaints@pppuniversity.ac.in</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Office Hours</h4>
+                    <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
+                    <p>Saturday: 9:00 AM - 1:00 PM</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Emergency Contact</h4>
+                    <p><i class="fas fa-phone-alt"></i> +91-612-2234999 (24/7)</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Patliputra University. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/complaint-form.js"></script>
+</body>
+
+</html>
